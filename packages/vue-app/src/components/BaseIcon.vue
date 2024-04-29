@@ -1,5 +1,4 @@
 <template>
-  <p>icon-{{ iconId }}</p>
   <svg>
     <use :href="`${sprite}#icon-${iconId}`"></use>
   </svg>
