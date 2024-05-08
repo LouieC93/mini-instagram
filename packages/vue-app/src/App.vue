@@ -4,15 +4,21 @@ import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <header id="header">
-    <NavBar />
-  </header>
-
-  <RouterView />
+  <div id="content">
+    <header id="header">
+      <NavBar />
+    </header>
+    <RouterView />
+  </div>
 </template>
 
-<style scoped>
-#header {
-  box-shadow: 0 4px 12px #eeee;
+<style lang="scss" scoped>
+#content {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  #header {
+    box-shadow: 0 4px 12px #eeee;
+  }
 }
 </style>
