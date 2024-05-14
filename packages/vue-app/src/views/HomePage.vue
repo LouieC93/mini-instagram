@@ -12,7 +12,7 @@
           <div class="prop-container">
             <div class="left">
               <div class="avatar-container">
-                <BaseIcon :iconId="'cross'" />
+                <BaseAvatar :size="32"/>
                 <p class="name">NAMENAMENAMENAMENAME</p>
               </div>
               <p class="date">2222.22.22</p>
@@ -39,6 +39,7 @@
   </main>
 </template>
 <script lang="ts" setup>
+import BaseAvatar from '@/components/BaseAvatar.vue';
 import BaseIcon from '@/components/BaseIcon.vue'
 import { getShortAmount } from '@/utils/number'
 

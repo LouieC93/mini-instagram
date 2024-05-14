@@ -8,12 +8,9 @@
       <input type="text" v-model="searchText" />
     </div>
     <div class="buttons-container">
-      <router-link :to="{}">
-        <BaseIcon :iconId="'home'" />
-      </router-link>
       <BaseIcon :iconId="'add'" @click="addPost" />
       <div class="avatar-container" @click="toggleDropdown">
-        <BaseIcon :iconId="'cross'" />
+        <BaseAvatar />
         <div class="dropdown-menu" v-if="isDropdownShow">
           <ul>
             <li>Profile</li>
@@ -28,7 +25,8 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
 import BaseIcon from './BaseIcon.vue'
-import { ref } from 'vue';
+import BaseAvatar from './BaseAvatar.vue'
+import { ref } from 'vue'
 
 const searchText = defineModel<string>()
 const isDropdownShow = ref(false)
@@ -45,8 +43,10 @@ nav {
   display: grid;
   align-items: center;
   height: 80px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   .logo {
+    grid-column: 2 / 3;
+    justify-self: start;
     display: grid;
     justify-content: center;
     > img {
@@ -54,6 +54,7 @@ nav {
     }
   }
   .search-container {
+    grid-column: 3 / 5;
     display: grid;
     align-items: center;
     grid-template-columns: auto 1fr;
@@ -68,10 +69,12 @@ nav {
     }
   }
   .buttons-container {
+    grid-column: 5 / 6;
+    justify-self: end;
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(2, auto);
     grid-column-gap: 12px;
     > * {
       display: grid;
