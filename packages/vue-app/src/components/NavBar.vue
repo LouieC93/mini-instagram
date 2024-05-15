@@ -88,7 +88,7 @@ nav {
       right: 0;
       bottom: -12px;
       transform: translateY(100%);
-      filter: drop-shadow(0 4px 6px #eee);
+      filter: drop-shadow(0 4px 6px #3333);
       > * {
         background: #eee;
       }

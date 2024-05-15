@@ -12,7 +12,7 @@
           <div class="prop-container">
             <div class="left">
               <div class="avatar-container">
-                <BaseAvatar :size="32"/>
+                <BaseAvatar :size="36" />
                 <p class="name">NAMENAMENAMENAMENAME</p>
               </div>
               <p class="date">2222.22.22</p>
@@ -129,6 +129,10 @@ const iconSize = 28
   }
   .desc {
     margin-top: 12px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
   }
 }
 </style>
