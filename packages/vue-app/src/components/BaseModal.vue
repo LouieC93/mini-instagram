@@ -13,11 +13,12 @@
 import { toRef } from 'vue'
 import BaseIcon from './BaseIcon.vue'
 
-const props = withDefaults(defineProps<{ isShowClose: boolean; height?: string }>(), {
+const props = withDefaults(defineProps<{ isShowClose?: boolean; height?: string }>(), {
   isShowClose: true,
   height: '60%'
 })
-const modalHeight = toRef(props.height)
+const modalHeight = toRef(props, 'height')
+
 defineEmits(['close'])
 </script>
 <style lang="scss" scoped>
