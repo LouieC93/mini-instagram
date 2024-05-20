@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="post-list">
-      <div class="post" v-for="(item, index) in 20" :key="index">
+      <div class="post" v-for="(item, index) in 20" :key="index" @click="open">
         <div class="img-container">
           <img
             src="https://images.unsplash.com/photo-1623593721974-f39b78528626?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -36,14 +36,24 @@
         </div>
       </div>
     </div>
+    <PostDetailModal @close="close" v-if="isModalOpen" />
   </main>
 </template>
 <script lang="ts" setup>
-import BaseAvatar from '@/components/BaseAvatar.vue';
+import BaseAvatar from '@/components/BaseAvatar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
+import PostDetailModal from '@/components/PostDetailModal.vue'
 import { getShortAmount } from '@/utils/number'
+import { ref } from 'vue';
 
-const iconSize = 28
+const isModalOpen = ref(false)
+function close( ) {
+  isModalOpen.value = false
+}
+function open( ) {
+  isModalOpen.value = true
+}
+ const iconSize = 28
 </script>
 
 <style lang="scss" scoped>
