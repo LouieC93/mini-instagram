@@ -18,7 +18,7 @@
               <p class="date">2222.22.22</p>
             </div>
             <div class="right">
-              <BaseIcon :iconId="'heart'" :size="iconSize" />
+              <BaseIcon :iconId="'heart'" :size="iconSize" :fill="'none'" :stroke="'#000'"/>
               <p class="amount">{{ getShortAmount(111239433) }}</p>
               <BaseIcon :iconId="'comment'" :size="iconSize" />
               <p class="amount">113</p>
