@@ -51,16 +51,8 @@
         </div>
 
         <div class="action-container">
-          <div class="icons">
-            <BaseIcon :iconId="'heart'" :size="iconSize"/>
-            <!-- <BaseIcon :iconId="'heart'" :size="iconSize" :fill="'#FF3C3C'" :stroke="'#FF3C3C'"/> -->
-            <p class="amount">{{ getShortAmount(111239433) }}</p>
-            <BaseIcon :iconId="'comment'" :size="iconSize" />
-            <p class="amount">113</p>
-            <BaseIcon :iconId="'collect'" :size="iconSize" />
-            <p class="amount">113</p>
-          </div>
-          <div class="action">
+          <PostActions :size="iconSize" />
+          <div class="submit-container">
             <input
               type="text"
               v-model="newComment"
@@ -79,6 +71,7 @@ import BaseAvatar from './BaseAvatar.vue'
 import BaseModal from './BaseModal.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import { getShortAmount } from '@/utils/number'
+import PostActions from './PostActions.vue'
 
 const avatarSize = 32
 const iconSize = 24
@@ -177,43 +170,35 @@ const newComment = defineModel()
         margin-top: 4px;
       }
     }
-
     .action-container {
       display: grid;
       grid-template-rows: repeat(2, auto);
       padding: 12px 0;
       grid-gap: 12px;
-      .icons {
-        padding: 0 20px;
-        display: grid;
-        grid-gap: 2px 16px;
-        grid-template-columns: repeat(3, minmax(36px, auto));
-        grid-template-rows: repeat(2, auto);
-        grid-auto-flow: column;
-        justify-content: left;
-        justify-items: center;
-        align-content: space-around;
-        > p {
-          color: #666;
-          text-align: center;
-        }
+    }
+    :deep(.post-actions) {
+      padding: 0 20px;
+      grid-gap: 2px 16px;
+      justify-content: left;
+      > p {
+        color: #666;
       }
-      .action {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        padding: 0 24px 0 18px;
-        grid-gap: 12px;
-        align-items: center;
-        input {
-          border-radius: 24px;
-          background: #eee;
-          border: none;
-          height: 36px;
-        }
-        button {
-          color: #0092ea;
-          font-size: 16px;
-        }
+    }
+    .submit-container {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding: 0 24px 0 18px;
+      grid-gap: 12px;
+      align-items: center;
+      input {
+        border-radius: 24px;
+        background: #eee;
+        border: none;
+        height: 36px;
+      }
+      button {
+        color: #0092ea;
+        font-size: 16px;
       }
     }
   }

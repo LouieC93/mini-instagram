@@ -17,14 +17,7 @@
               </div>
               <p class="date">2222.22.22</p>
             </div>
-            <div class="right">
-              <BaseIcon :iconId="'heart'" :size="iconSize" :fill="'none'" :stroke="'#000'"/>
-              <p class="amount">{{ getShortAmount(111239433) }}</p>
-              <BaseIcon :iconId="'comment'" :size="iconSize" />
-              <p class="amount">113</p>
-              <BaseIcon :iconId="'collect'" :size="iconSize" />
-              <p class="amount">113</p>
-            </div>
+            <PostActions />
           </div>
           <p class="desc">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae eius voluptatem
@@ -41,19 +34,17 @@
 </template>
 <script lang="ts" setup>
 import BaseAvatar from '@/components/BaseAvatar.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
+import PostActions from '@/components/PostActions.vue'
 import PostDetailModal from '@/components/PostDetailModal.vue'
-import { getShortAmount } from '@/utils/number'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const isModalOpen = ref(false)
-function close( ) {
+function close() {
   isModalOpen.value = false
 }
-function open( ) {
+function open() {
   isModalOpen.value = true
 }
- const iconSize = 28
 </script>
 
 <style lang="scss" scoped>
@@ -94,7 +85,7 @@ function open( ) {
     padding-left: 24px;
     .prop-container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr) minmax(150px, 1fr);
+      grid-template-columns: repeat(2, 1fr) auto;
       p {
         font-size: 14px;
         max-width: 100%;
@@ -123,17 +114,8 @@ function open( ) {
           color: #888;
         }
       }
-      .right {
+      .post-actions {
         grid-column: 3;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, auto);
-        grid-auto-flow: column;
-        justify-items: center;
-        align-content: space-around;
-        p {
-          text-align: center;
-        }
       }
     }
   }
