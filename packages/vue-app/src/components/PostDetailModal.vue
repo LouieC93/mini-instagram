@@ -69,8 +69,6 @@
 <script lang="ts" setup>
 import BaseAvatar from './BaseAvatar.vue'
 import BaseModal from './BaseModal.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
-import { getShortAmount } from '@/utils/number'
 import PostActions from './PostActions.vue'
 
 const avatarSize = 32

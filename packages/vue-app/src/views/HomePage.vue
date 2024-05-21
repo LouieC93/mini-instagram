@@ -30,12 +30,14 @@
       </div>
     </div>
     <PostDetailModal @close="close" v-if="isModalOpen" />
+    <PostUpload v-if="false"/>
   </main>
 </template>
 <script lang="ts" setup>
 import BaseAvatar from '@/components/BaseAvatar.vue'
 import PostActions from '@/components/PostActions.vue'
 import PostDetailModal from '@/components/PostDetailModal.vue'
+import PostUpload from '@/components/PostUpload.vue'
 import { ref } from 'vue'
 
 const isModalOpen = ref(false)
