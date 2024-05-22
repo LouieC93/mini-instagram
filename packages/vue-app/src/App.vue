@@ -20,11 +20,5 @@ import NavBar from './components/NavBar.vue'
   #header {
     box-shadow: 0 4px 12px #eeee;
   }
-  main {
-    overflow: auto;
-    padding: 48px 0;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-  }
 }
 </style>

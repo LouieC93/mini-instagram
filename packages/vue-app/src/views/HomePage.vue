@@ -23,4 +23,11 @@ function open() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+main {
+  overflow: auto;
+  padding: 48px 0;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+</style>

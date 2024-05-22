@@ -195,6 +195,7 @@ const newComment = defineModel()
         height: 36px;
       }
       button {
+        height: 100%;
         color: #0092ea;
         font-size: 16px;
       }
