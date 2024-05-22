@@ -20,7 +20,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
 import BaseModal from '@/components/BaseModal.vue'
 import { ref } from 'vue'
 
-const desc = ref<string>()
+const desc = ref('')
 </script>
 <style lang="scss">
 .post-upload {
