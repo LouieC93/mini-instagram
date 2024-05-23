@@ -65,33 +65,29 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "nickname": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "notification": {
+      "type": "boolean"
+    },
+    "avatar_link": {
+      "type": "string"
+    },
     "likes": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::post.post",
-      "mappedBy": "liked_by"
+      "mappedBy": "like_by"
     },
-    "favors": {
+    "saves": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::post.post",
-      "mappedBy": "favored_by"
-    },
-    "nickname": {
-      "type": "string"
-    },
-    "self_intro": {
-      "type": "text"
-    },
-    "notification": {
-      "type": "enumeration",
-      "enum": [
-        "on",
-        "off"
-      ]
-    },
-    "avatar": {
-      "type": "string"
+      "mappedBy": "save_by"
     }
   }
 }

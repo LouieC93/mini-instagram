@@ -12,8 +12,8 @@ module.exports = {
     },
     {
       method: "PUT",
-      path: "/posts/:id/favor",
-      handler: "post.favor",
+      path: "/posts/:id/save",
+      handler: "post.save",
     },
   ],
 };

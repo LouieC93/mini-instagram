@@ -12,3 +12,4 @@ export default factories.createCoreController('api::comment.comment', ({ strapi 
       return super.create(ctx);
     },
   }));
+

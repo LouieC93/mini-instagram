@@ -28,7 +28,7 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
   
       posts.data.forEach((post) => {
         // 我喜欢的
-        let index = post.attributes.liked_by?.data?.findIndex(
+        let index = post.attributes.like_by?.data?.findIndex(
           (user) => user?.id === id
         );
         if (index === -1) {
@@ -37,18 +37,18 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
           post.attributes.likedByMe = true;
         }
         // 我收藏的
-        let index2 = post.attributes.favored_by?.data?.findIndex(
+        let index2 = post.attributes.save_by?.data?.findIndex(
           (user) => user?.id === id
         );
         if (index2 === -1) {
-          post.attributes.favoredByMe = false;
+          post.attributes.savedByMe = false;
         } else {
-          post.attributes.favoredByMe = true;
+          post.attributes.savedByMe = true;
         }
   
-        post.attributes.liked_by = post.attributes.liked_by?.data?.length;
+        post.attributes.like_by = post.attributes.like_by?.data?.length;
         post.attributes.comments = post.attributes.comments?.data?.length;
-        post.attributes.favored_by = post.attributes.favored_by?.data?.length;
+        post.attributes.save_by = post.attributes.save_by?.data?.length;
       });
   
       ctx.body = posts;
@@ -57,15 +57,15 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
       const id = ctx.state.user.id;
       const posts = await strapi.entityService.findMany("api::post.post", {
         filters: {
-          user: id,
+            post_by: id,
         },
       });
       ctx.send(posts);
     },
     async like(ctx) {
-      return strapi.service("api::post.post").likeOrFavor(ctx, "like");
+      return strapi.service("api::post.post").likeOrSave(ctx, "like");
     },
-    async favor(ctx) {
-      return strapi.service("api::post.post").likeOrFavor(ctx, "favor");
+    async save(ctx) {
+      return strapi.service("api::post.post").likeOrSave(ctx, "save");
     },
   }));

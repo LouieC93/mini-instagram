@@ -5,12 +5,12 @@
 import { factories } from '@strapi/strapi';
 
 export default factories.createCoreService('api::post.post', {
-    async likeOrFavor(ctx, type) {
+    async likeOrSave(ctx, type) {
       const { id } = ctx.params;
       const { user } = ctx.state;
       const { id: userId } = user;
   
-      const relation = type === "like" ? "liked_by" : "favored_by";
+      const relation = type === "like" ? "like_by" : "save_by";
   
       const post = await strapi.entityService.findOne("api::post.post", id, {
         populate: [relation],
