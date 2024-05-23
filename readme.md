@@ -6,7 +6,7 @@ This monorepo project is managed by `pnpm`, so you must install `pnpm` first.
 
 - In the root folder, run `pnpm i`.
 - Then run `pnpm dev` and the backend app Strapi will run at `1337` port, frontend app Vue will run at `5173` port.
-- The Strapi admin account and password are abc@abc.com | 1234Qwer.
+- The Strapi admin account and password are abc@abc.com | Qwer1234.
 
 ### Highlight
 
