@@ -137,7 +137,7 @@ const newComment = defineModel()
         margin-bottom: 12px;
       }
       .tags {
-        color: #0092ea;
+        color: $blue;
       }
     }
     .comment {
@@ -196,7 +196,7 @@ const newComment = defineModel()
       }
       button {
         height: 100%;
-        color: #0092ea;
+        color: $blue;
         font-size: 16px;
       }
     }

@@ -64,7 +64,7 @@ const desc = ref('')
   }
   > button {
     padding: 24px 0;
-    color: #0092ea;
+    color: $blue;
     font-size: 24px;
   }
 }
