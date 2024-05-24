@@ -5,10 +5,12 @@ import type BaseAvatar from '@/components/BaseAvatar.vue';
       <BaseAvatar :size="120" />
       <div class="profile">
         <div>
-          <p class="name">NAMENAMENAMENAMENAMENAME</p>
+          <p class="name">NAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAME</p>
           <router-link :to="{ name: 'profileEdit' }">Edit Profile</router-link>
         </div>
-        <p class="account">ACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNT</p>
+        <p class="account">
+          @ACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNT
+        </p>
         <p class="intro">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum hic nam repellendus
           voluptate aut, quisquam eos tempora facilis! Est, et? Odit dolorem nemo illo similique
@@ -58,24 +60,57 @@ const tabSize = ref(24)
 main {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: minmax(0, auto);
+  grid-auto-rows: auto;
   align-content: start;
   justify-content: center;
   padding: 60px 0;
+  overflow: auto;
   > * {
     grid-column: 2 / 6;
   }
+  .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .info-container {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
     grid-gap: 60px;
     align-items: center;
     align-content: start;
     .avatar {
       justify-self: end;
     }
-    .tabs-container {
+    .profile {
       display: grid;
+      overflow: hidden;
+      align-content: start;
+      word-break: break-word;
+      > div {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-gap: 12px;
+        align-items: center;
+        font-size: 18px;
+      }
+      .account {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+      }
+      .intro {
+        margin-top: 18px;
+      }
+      a {
+        color: #fff;
+        background: $blue;
+        padding: 6px 16px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: bold;
+      }
     }
   }
   .tabs-container {
