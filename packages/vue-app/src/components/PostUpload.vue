@@ -57,7 +57,6 @@ const desc = ref('')
     > textarea {
       padding: 24px;
       border: none;
-      resize: none;
       background: #6663;
       font-size: 18px;
     }
