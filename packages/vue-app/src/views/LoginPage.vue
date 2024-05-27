@@ -18,7 +18,7 @@
         Don't have an account?
         <router-link :to="{}" @click="isNewUser = !isNewUser">Sign up</router-link>
       </p>
-      <div class="policy-container">
+      <div class="policy-container" v-if="isNewUser">
         <input type="checkbox" id="policy" />
         <label for="policy">
           By signing up, you agree to our Terms , Privacy Policy and Cookies Policy
