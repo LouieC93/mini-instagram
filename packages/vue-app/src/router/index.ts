@@ -4,6 +4,7 @@ import SearchPage from '@/views/SearchPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
 import ProfileEditPage from '@/views/ProfileEditPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
+import { getJwtToken } from '@/services/auth'
 
 const routes = [
   {
@@ -41,6 +42,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
+})
+router.beforeEach((to) => {
+  if (to.name !== 'login' && !getJwtToken()) {
+    return { name: 'login' }
+  }
+  if (to.name === 'login' && getJwtToken()) {
+    return { name: 'home' }
+  }
 })
 
 export default router
