@@ -1,4 +1,4 @@
-import { getJwtToken } from '@/apis/auth'
+import { getJwtToken } from '@/services/auth'
 interface RequestOptions {
   method: 'GET' | 'POST'
   body?: { [key: string]: any }
@@ -27,12 +27,14 @@ export async function request<T>(
     } else {
       const result = await res.json()
       const error = new Error('')
-      error.name = 'HTTP ERROR'
+      error.name = 'HTTP STATUS ERROR'
       error.message = result.message
       throw error
     }
   } catch (error) {
-    console.error(error)
-    throw error
+    const newError = new Error()
+    newError.name = 'HTTP ERROR'
+    newError.message = (error as Error).message
+    throw newError
   }
 }

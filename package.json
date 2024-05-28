@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm -F strapi develop & pnpm -F vue-app dev"
+    "dev": "pnpm -F strapi develop & pnpm -F mini-instagram-vue dev"
   },
   "keywords": [],
   "author": "",
