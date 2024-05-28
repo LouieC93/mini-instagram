@@ -1,14 +1,14 @@
 <template>
   <main>
     <img src="../assets/cover.jpeg" alt="cover" class="cover" />
-    <form class="form-container">
+    <form class="form-container" @submit.prevent="register">
       <div class="title">
         <img src="../assets/logo.png" alt="" />
         <h1>Mini Instagram</h1>
       </div>
-      <input type="email" placeholder="Email" />
-      <input type="text" placeholder="Username" v-if="isNewUser" />
-      <input type="password" placeholder="Password" />
+      <input type="email" placeholder="Email" v-model="email" />
+      <input type="text" placeholder="Username" v-if="isNewUser" v-model="username" />
+      <input type="password" placeholder="Password" v-model="password" />
       <button type="submit">Submit</button>
       <p v-if="isNewUser">
         Have an account?
@@ -19,7 +19,7 @@
         <router-link :to="{}" @click="isNewUser = !isNewUser">Sign up</router-link>
       </p>
       <div class="policy-container" v-if="isNewUser">
-        <input type="checkbox" id="policy" />
+        <input type="checkbox" id="policy" v-model="isPolicyChecked" />
         <label for="policy">
           By signing up, you agree to our Terms , Privacy Policy and Cookies Policy
         </label>
@@ -28,9 +28,37 @@
   </main>
 </template>
 <script lang="ts" setup>
+import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const email = ref('')
+const username = ref('')
+const password = ref('')
+const isPolicyChecked = ref(false)
 
 const isNewUser = ref(true)
+
+const userStore = useUserStore()
+const router = useRouter()
+
+async function register() {
+  if ([email.value, username.value, password.value].includes('')) {
+    alert('Please complete the form')
+    return
+  }
+  if (!isPolicyChecked.value) {
+    alert('Please agree the policy.')
+    return
+  } else {
+    await userStore.registerUser({
+      email: email.value,
+      username: username.value,
+      password: password.value
+    })
+    router.replace({ name: 'home' })
+  }
+}
 </script>
 <style lang="scss" scoped>
 main {
