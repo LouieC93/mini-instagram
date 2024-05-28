@@ -810,7 +810,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     nickname: Attribute.String;
     intro: Attribute.Text;
-    notification: Attribute.Boolean;
+    notification: Attribute.Boolean & Attribute.DefaultTo<true>;
     avatar_link: Attribute.String;
     likes: Attribute.Relation<
       'plugin::users-permissions.user',

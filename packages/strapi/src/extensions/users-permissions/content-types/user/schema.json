@@ -72,7 +72,8 @@
       "type": "text"
     },
     "notification": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "avatar_link": {
       "type": "string"
