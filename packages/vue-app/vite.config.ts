@@ -17,5 +17,11 @@ export default defineConfig({
         additionalData: `@import "@/assets/global.scss";`
       }
     }
+  },
+  server: {
+    proxy: {
+      '/api': 'https://localhost:1337',
+      '/upload': 'https://localhost:1337'
+    }
   }
 })
