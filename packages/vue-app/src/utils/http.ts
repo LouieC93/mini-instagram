@@ -1,24 +1,35 @@
 import { getJwtToken } from '@/services/auth'
 interface RequestOptions {
   method: 'GET' | 'POST'
-  body?: { [key: string]: any }
+  body?: { [key: string]: any } | FormData
   headers?: { [key: string]: any }
   auth?: boolean
+  isUpload?: boolean
 }
 export async function request<T>(
   url: string,
-  { method = 'GET', body, headers, auth = true }: RequestOptions
+  { method = 'GET', body, headers, auth = true, isUpload = false }: RequestOptions
 ): Promise<T> {
   try {
-    const res = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(auth && { Authorization: `Bearer ${getJwtToken()}` }),
-        ...headers
-      },
-      ...(body && { body: JSON.stringify(body) })
-    })
+    const options = isUpload
+      ? {
+          method,
+          headers: {
+            ...(auth && { Authorization: `Bearer ${getJwtToken()}` }),
+            ...headers
+          },
+          body: body as FormData
+        }
+      : {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            ...(auth && { Authorization: `Bearer ${getJwtToken()}` }),
+            ...headers
+          },
+          ...(body && { body: JSON.stringify(body) })
+        }
+    const res = await fetch(url, options)
 
     if (res.status < 400) {
       const result: T = await res.json()

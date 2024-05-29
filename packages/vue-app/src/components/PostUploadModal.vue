@@ -1,6 +1,6 @@
 <template>
   <BaseModal @close="postStore.closeUploadModal">
-    <div class="post-upload">
+    <form class="post-upload" @submit.prevent="submitPost">
       <div class="upload-container">
         <img v-if="imgUrl" :src="imgUrl" alt="upload-img-preview" class="preview" />
         <label v-else class="upload" for="upload"
@@ -12,24 +12,35 @@
       <div class="desc-container">
         <textarea placeholder="Write a description..." v-model="desc"></textarea>
       </div>
-      <button type="button">Post</button>
-    </div>
+      <button type="submit">Post</button>
+    </form>
   </BaseModal>
 </template>
 <script lang="ts" setup>
 import BaseIcon from '@/components/BaseIcon.vue'
 import BaseModal from '@/components/BaseModal.vue'
+import { sendNewPost } from '@/services/post'
 import { usePostStore } from '@/stores/post'
 import { ref } from 'vue'
 
 const postStore = usePostStore()
 const desc = ref('')
+const imgFile = ref<File | null>(null)
 const imgUrl = ref('')
 
 function handleUpload(e: Event) {
-  const imgFile = (e.target as HTMLInputElement).files?.[0]
-  if (imgFile) {
-    imgUrl.value = URL.createObjectURL(imgFile)
+  const uploadedFile = (e.target as HTMLInputElement).files?.[0]
+  if (uploadedFile) {
+    imgUrl.value = URL.createObjectURL(uploadedFile)
+    imgFile.value = uploadedFile
+  }
+}
+async function submitPost() {
+  if(imgFile.value && desc.value) {
+    await sendNewPost(imgFile.value, desc.value)
+    postStore.closeUploadModal()
+  } else{
+    alert('Please upload a image and add a description.')
   }
 }
 </script>

@@ -1,5 +1,6 @@
+import { sendNewPost } from '@/services/post'
 import { defineStore } from 'pinia'
-import { ref } from 'Vue'
+import { ref } from 'vue'
 
 export const usePostStore = defineStore('postStore', () => {
   const isUploadModalShow = ref(false)
@@ -9,5 +10,10 @@ export const usePostStore = defineStore('postStore', () => {
   function openUploadModal() {
     isUploadModalShow.value = true
   }
-  return { isUploadModalShow, closeUploadModal, openUploadModal}
+
+  async function createPost(image: File, description: string) {
+    await sendNewPost(image, description)
+  }
+
+  return { isUploadModalShow, closeUploadModal, openUploadModal, createPost }
 })
