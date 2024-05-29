@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
 import PostDetailModal from '@/components/PostDetailModal.vue'
-import PostUpload from '@/components/PostUpload.vue'
+import PostUpload from '@/components/PostUploadModal.vue'
 import PostList from '@/components/PostList.vue'
 import PostItem from '@/components/PostItem.vue'
 import { ref } from 'vue'

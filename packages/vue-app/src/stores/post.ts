@@ -2,6 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'Vue'
 
 export const usePostStore = defineStore('postStore', () => {
-  const p = ref(0)
-  return { p }
+  const isUploadModalShow = ref(false)
+  function closeUploadModal() {
+    isUploadModalShow.value = false
+  }
+  function openUploadModal() {
+    isUploadModalShow.value = true
+  }
+  return { isUploadModalShow, closeUploadModal, openUploadModal}
 })

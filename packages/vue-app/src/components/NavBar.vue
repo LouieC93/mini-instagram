@@ -28,12 +28,14 @@ import BaseIcon from './BaseIcon.vue'
 import BaseAvatar from './BaseAvatar.vue'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { usePostStore } from '@/stores/post'
 
 const searchText = defineModel<string>()
 const isDropdownShow = ref(false)
 
+const postStore = usePostStore()
 function addPost() {
-  console.log('[Add]', 'add post')
+  postStore.openUploadModal()
 }
 function toggleDropdown() {
   isDropdownShow.value = !isDropdownShow.value
@@ -69,7 +71,7 @@ nav {
     grid-gap: 10px;
     padding: 12px;
     border-radius: 24px;
-    background: #fefefe;
+    background: #eee;
     > input {
       background: none;
       border: none;

@@ -1,26 +1,23 @@
 <template>
   <main>
     <PostList>
-      <PostItem v-for="(item, index) in 20" :key="index" @click="open" />
+      <PostItem v-for="(item, index) in 20" :key="index"/>
     </PostList>
-    <PostDetailModal @close="close" v-if="isModalOpen" />
-    <PostUpload v-if="false" />
+    <PostDetailModal v-if="false" />
+    <PostUpload v-if="isUploadModalOpen" />
   </main>
 </template>
 <script lang="ts" setup>
 import PostDetailModal from '@/components/PostDetailModal.vue'
-import PostUpload from '@/components/PostUpload.vue'
+import PostUpload from '@/components/PostUploadModal.vue'
 import PostList from '@/components/PostList.vue'
 import PostItem from '@/components/PostItem.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { usePostStore } from '@/stores/post'
 
-const isModalOpen = ref(false)
-function close() {
-  isModalOpen.value = false
-}
-function open() {
-  isModalOpen.value = true
-}
+
+const postStore = usePostStore()
+const isUploadModalOpen = computed(() => postStore.isUploadModalShow)
 </script>
 
 <style lang="scss" scoped>
