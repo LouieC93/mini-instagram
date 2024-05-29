@@ -29,6 +29,20 @@ export async function sendRegister(email: string, username: string, password: st
   return res
 }
 
+export async function sendLogin(email: string, password: string) {
+  const res = await request<RegisterResponse>('/api/auth/local', {
+    method: 'POST',
+    auth: false,
+    body: {
+      identifier: email,
+      password
+    }
+  })
+  setJwtToken(res.jwt)
+  setUser(res.user)
+  return res
+}
+
 export interface RegisterResponse {
   jwt: string
   user: UserResponse

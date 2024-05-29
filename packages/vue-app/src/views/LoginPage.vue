@@ -1,7 +1,7 @@
 <template>
   <main>
     <img src="../assets/cover.jpeg" alt="cover" class="cover" />
-    <form class="form-container" @submit.prevent="register">
+    <form class="form-container" @submit.prevent="handleSubmit">
       <div class="title">
         <img src="../assets/logo.png" alt="" />
         <h1>Mini Instagram</h1>
@@ -58,6 +58,20 @@ async function register() {
     })
     router.replace({ name: 'home' })
   }
+}
+
+async function login() {
+  if ([email.value, password.value].includes('')) {
+    alert('Please complete the form')
+    return
+  } else {
+    await userStore.loginUser({ email: email.value, password: password.value })
+    router.replace({ name: 'home' })
+  }
+}
+
+function handleSubmit() {
+  isNewUser.value ? register() : login()
 }
 </script>
 <style lang="scss" scoped>

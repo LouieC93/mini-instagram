@@ -1,4 +1,4 @@
-import { getUser, sendRegister, type UserResponse } from '@/services/auth'
+import { getUser, sendLogin, sendRegister, type UserResponse } from '@/services/auth'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -9,5 +9,10 @@ export const useUserStore = defineStore('userStore', () => {
     const userData = await sendRegister(email, username, password)
     user.value = userData.user
   }
-  return { user, registerUser }
+  async function loginUser(params: { email: string; password: string }) {
+    const { email, password } = params
+    const userData = await sendLogin(email, password)
+    user.value = userData.user
+  }
+  return { user, registerUser, loginUser }
 })
