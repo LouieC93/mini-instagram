@@ -12,6 +12,9 @@ export function getUser() {
 export function setUser(user: { [key: string]: any }) {
   return localStorage.setItem('user', JSON.stringify(user))
 }
+export function removeItem(item: 'jwtToken' | 'user') {
+  return localStorage.removeItem(item)
+}
 
 export async function sendRegister(email: string, username: string, password: string) {
   const res = await request<RegisterResponse>('/api/auth/local/register', {
@@ -41,6 +44,11 @@ export async function sendLogin(email: string, password: string) {
   setJwtToken(res.jwt)
   setUser(res.user)
   return res
+}
+
+export function logoutAndClear() {
+  removeItem('jwtToken')
+  removeItem('user')
 }
 
 export interface RegisterResponse {

@@ -14,7 +14,7 @@
         <div class="dropdown-menu" v-if="isDropdownShow">
           <ul>
             <li>Profile</li>
-            <li>Logout</li>
+            <li @click="logout">Logout</li>
           </ul>
           <div class="triangle"></div>
         </div>
@@ -23,10 +23,11 @@
   </nav>
 </template>
 <script lang="ts" setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import BaseIcon from './BaseIcon.vue'
 import BaseAvatar from './BaseAvatar.vue'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 const searchText = defineModel<string>()
 const isDropdownShow = ref(false)
@@ -36,6 +37,13 @@ function addPost() {
 }
 function toggleDropdown() {
   isDropdownShow.value = !isDropdownShow.value
+}
+
+const userStore = useUserStore()
+const router = useRouter()
+function logout() {
+  userStore.logout()
+  router.replace({ name: 'login' })
 }
 </script>
 <style scoped lang="scss">
@@ -61,7 +69,7 @@ nav {
     grid-gap: 10px;
     padding: 12px;
     border-radius: 24px;
-    background: #eee;
+    background: #fefefe;
     > input {
       background: none;
       border: none;
@@ -90,20 +98,21 @@ nav {
       transform: translateY(100%);
       filter: drop-shadow(0 4px 6px #3333);
       > * {
-        background: #eee;
+        background: #fefefe;
       }
       ul {
         display: grid;
         position: relative;
-        padding: 6px 0;
+        overflow: hidden;
         border-radius: 6px;
         z-index: 2;
         font-size: 1.2rem;
         li {
-          padding: 6px 24px 6px 24px;
+          padding: 12px 24px;
         }
         li:hover {
-          color: #999;
+          background: $blue;
+          color: #fff;
         }
       }
       .triangle {

@@ -37,7 +37,7 @@ const username = ref('')
 const password = ref('')
 const isPolicyChecked = ref(false)
 
-const isNewUser = ref(true)
+const isNewUser = ref(false)
 
 const userStore = useUserStore()
 const router = useRouter()
