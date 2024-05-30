@@ -14,7 +14,7 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
       // ctx.send(post);
       const dataObj = JSON.parse(ctx.request.body.data);
       if (dataObj) {
-        dataObj.user = id;
+        dataObj.post_by = id;
         ctx.request.body.data = JSON.stringify(dataObj);
       } else {
         ctx.sendStatus(401);
