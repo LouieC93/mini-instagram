@@ -1,4 +1,4 @@
-import { sendNewPost } from '@/services/post'
+import { sendLoadPosts, sendNewPost, type Post } from '@/services/post'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -13,7 +13,14 @@ export const usePostStore = defineStore('postStore', () => {
 
   async function createPost(image: File, description: string) {
     await sendNewPost(image, description)
+    await getAllPosts()
   }
 
-  return { isUploadModalShow, closeUploadModal, openUploadModal, createPost }
+  const allPosts = ref<Post[]>([])
+  async function getAllPosts() {
+    allPosts.value = await sendLoadPosts()
+  }
+
+
+  return { isUploadModalShow, closeUploadModal, openUploadModal, createPost, allPosts, getAllPosts }
 })

@@ -1,11 +1,11 @@
 <template>
   <div class="post-actions">
     <BaseIcon :iconId="'heart'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">{{ getShortAmount(111239433) }}</p>
+    <p class="amount">{{ likes }}</p>
     <BaseIcon :iconId="'comment'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">113</p>
+    <p class="amount">{{ comments }}</p>
     <BaseIcon :iconId="'collect'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">113</p>
+    <p class="amount">{{ saves }}</p>
   </div>
 </template>
 
@@ -14,7 +14,10 @@ import BaseIcon from '@/components/BaseIcon.vue'
 import { getShortAmount } from '@/utils/number'
 import { toRef } from 'vue'
 
-const props = withDefaults(defineProps<{ size?: number }>(), { size: 28 })
+const props = withDefaults(
+  defineProps<{ size?: number; likes: number; comments: number; saves: number }>(),
+  { size: 28, likes: 0, comments: 0, saves: 0 }
+)
 const size = toRef(props, 'size')
 </script>
 <style lang="scss" scoped>

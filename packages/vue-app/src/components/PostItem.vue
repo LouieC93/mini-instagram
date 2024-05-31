@@ -1,28 +1,21 @@
 <template>
   <div class="post">
     <div class="img-container">
-      <img
-        src="https://images.unsplash.com/photo-1623593721974-f39b78528626?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt=""
-      />
+      <img :src="post?.imgUrl" alt="post-image" />
     </div>
     <div class="post-info">
       <div class="prop-container">
         <div class="left">
           <div class="avatar-container">
             <BaseAvatar :size="36" />
-            <p class="name">NAMENAMENAMENAMENAME</p>
+            <p class="name">{{ post?.post_by.nickname }}</p>
           </div>
-          <p class="date">2222.22.22</p>
+          <p class="date">{{ post?.publishedAt }}</p>
         </div>
-        <PostActions />
+        <PostActions :likes="post?.like_by" :saves="post?.save_by" :comments="post?.comments" />
       </div>
       <p class="desc">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae eius voluptatem
-        reiciendis, consequuntur dignissimos quisquam suscipit velit ex odit similique, in deserunt
-        porro autem repellendus veniam necessitatibus sapiente voluptates molestiae debitis modi, ut
-        numquam hic quos! Harum at, iusto deleniti, ab provident voluptas voluptatem fuga quibusdam,
-        aliquid amet sed veritatis.
+        {{ post?.description }}
       </p>
     </div>
   </div>
@@ -30,6 +23,16 @@
 <script lang="ts" setup>
 import BaseAvatar from '@/components/BaseAvatar.vue'
 import PostActions from '@/components/PostActions.vue'
+import type { Post } from '@/services/post'
+
+withDefaults(
+  defineProps<{
+    post: Post
+  }>(),
+  {
+    post: undefined
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -55,10 +58,12 @@ import PostActions from '@/components/PostActions.vue'
   background: #fff;
   border-bottom: 1px solid #ccc;
   aspect-ratio: 4 / 3;
+  overflow: hidden;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 .post-info {
@@ -104,7 +109,8 @@ import PostActions from '@/components/PostActions.vue'
   margin-top: 12px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 3;
   overflow: hidden;
+  white-space: pre-line;
 }
 </style>
