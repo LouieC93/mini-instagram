@@ -19,7 +19,6 @@
 <script lang="ts" setup>
 import BaseIcon from '@/components/BaseIcon.vue'
 import BaseModal from '@/components/BaseModal.vue'
-import { sendNewPost } from '@/services/post'
 import { usePostStore } from '@/stores/post'
 import { ref } from 'vue'
 
@@ -37,7 +36,7 @@ function handleUpload(e: Event) {
 }
 async function submitPost() {
   if(imgFile.value && desc.value) {
-    await sendNewPost(imgFile.value, desc.value)
+    await postStore.createPost(imgFile.value, desc.value)
     postStore.closeUploadModal()
   } else{
     alert('Please upload a image and add a description.')
