@@ -21,7 +21,7 @@ export function getPublishDate(date: string) {
 
     return `${publishDate.getFullYear()}-${('0' + (publishDate.getMonth() + 1)).slice(
       -2
-    )}-${('0' + (publishDate.getDate() + 1)).slice(-2)}`
+    )}-${('0' + publishDate.getDate()).slice(-2)}`
   } else {
     return ''
   }

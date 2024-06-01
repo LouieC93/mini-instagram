@@ -1,6 +1,6 @@
 import { getJwtToken } from '@/services/auth'
 interface RequestOptions {
-  method?: 'GET' | 'POST'
+  method?: 'GET' | 'POST' | 'PUT'
   body?: { [key: string]: any } | FormData
   headers?: { [key: string]: any }
   auth?: boolean
