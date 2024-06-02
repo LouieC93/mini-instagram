@@ -1,23 +1,55 @@
 <template>
   <div class="post-actions">
-    <BaseIcon :iconId="'heart'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">{{ likes }}</p>
-    <BaseIcon :iconId="'comment'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">{{ comments }}</p>
-    <BaseIcon :iconId="'collect'" :size="size" :fill="'none'" :stroke="'#000'" />
-    <p class="amount">{{ saves }}</p>
+    <BaseIcon
+      :iconId="'heart'"
+      :size="size"
+      :fill="likeByMe ? '#ff3c3c' : 'none'"
+      :stroke="likeByMe ? '#fff' : '#333'"
+      @click="emit('like')"
+    />
+    <p class="amount">{{ formattedLikes }}</p>
+    <BaseIcon
+      :iconId="'comment'"
+      :size="size"
+      :fill="'none'"
+      :stroke="'#333'"
+      @click="emit('comment')"
+    />
+    <p class="amount">{{ formattedComments }}</p>
+    <BaseIcon
+      :iconId="'collect'"
+      :size="size"
+      :fill="saveByMe ? '#ffd12e' : 'none'"
+      :stroke="saveByMe ? '#fff' : '#333'"
+      @click="emit('save')"
+    />
+    <p class="amount">{{ formattedSaves }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import BaseIcon from '@/components/BaseIcon.vue'
-import { toRef } from 'vue'
+import { getShortAmount } from '@/utils/number'
+import { computed, toRef } from 'vue'
 
 const props = withDefaults(
-  defineProps<{ size?: number; likes: string; comments: string; saves: string }>(),
-  { size: 28, likes: '', comments: '', saves: '' }
+  defineProps<{
+    size?: number
+    likes: number
+    comments: number
+    saves: number
+    likeByMe: boolean
+    saveByMe: boolean
+  }>(),
+  { size: 28, likes: 0, comments: 0, saves: 0, likeByMe: false, saveByMe: false }
 )
 const size = toRef(props, 'size')
+
+const emit = defineEmits(['like', 'save', 'comment'])
+
+const formattedLikes = computed(() => getShortAmount(props.likes))
+const formattedComments = computed(() => getShortAmount(props.comments))
+const formattedSaves = computed(() => getShortAmount(props.saves))
 </script>
 <style lang="scss" scoped>
 .post-actions {
@@ -28,8 +60,11 @@ const size = toRef(props, 'size')
   grid-auto-flow: column;
   justify-items: center;
   align-content: space-around;
-  p {
+  > p {
     text-align: center;
+  }
+  > svg {
+    cursor: pointer;
   }
 }
 </style>

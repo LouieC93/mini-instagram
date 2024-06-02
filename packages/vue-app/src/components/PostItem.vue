@@ -10,9 +10,17 @@
             <BaseAvatar :size="36" />
             <p class="name">{{ post?.post_by.nickname }}</p>
           </div>
-          <p class="date">{{ post?.publishedAt }}</p>
+          <p class="date">{{ formattedDate }}</p>
         </div>
-        <PostActions :likes="post?.like_by" :saves="post?.save_by" :comments="post?.comments" />
+        <PostActions
+          :likes="post?.like_by"
+          :saves="post?.save_by"
+          :comments="post?.comments"
+          :likeByMe="post?.likedByMe"
+          :saveByMe="post?.savedByMe"
+          @like="toggleAction('like')"
+          @save="toggleAction('save')"
+        />
       </div>
       <p class="desc">
         {{ post?.description }}
@@ -24,8 +32,11 @@
 import BaseAvatar from '@/components/BaseAvatar.vue'
 import PostActions from '@/components/PostActions.vue'
 import type { Post } from '@/services/post'
+import { usePostStore } from '@/stores/post'
+import { getPublishDate } from '@/utils/date'
+import { computed } from 'vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     post: Post
   }>(),
@@ -33,6 +44,13 @@ withDefaults(
     post: undefined
   }
 )
+
+const formattedDate = computed(() => getPublishDate(props?.post?.publishedAt) || '')
+
+const postStore = usePostStore()
+function toggleAction(type: 'like' | 'save') {
+  postStore.togglePostActions(type, props?.post?.id)
+}
 </script>
 
 <style lang="scss" scoped>
