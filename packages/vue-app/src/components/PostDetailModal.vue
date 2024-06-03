@@ -47,15 +47,15 @@
             @like="toggleAction('like')"
             @save="toggleAction('save')"
           />
-          <div class="submit-container">
+          <form class="submit-container" @submit.prevent="submitComment">
             <input
               type="text"
               v-model="newComment"
               placeholder="Add a comment..."
               name="new-post"
             />
-            <button>Post</button>
-          </div>
+            <button type="submit">Post</button>
+          </form>
         </div>
       </div>
     </div>
@@ -72,13 +72,18 @@ import { getPublishDate } from '@/utils/date'
 const avatarSize = 32
 const iconSize = 24
 
-const newComment = defineModel()
+const newComment = defineModel<string>({default: ''})
 
 const postStore = usePostStore()
 const postDetail = computed(() => postStore.getPostDetails())
 const formattedDate = computed(() => getPublishDate(postDetail.value?.publishedAt) || '')
 function toggleAction(type: 'like' | 'save') {
   postStore.togglePostActions(type, postDetail.value?.id)
+}
+
+async function submitComment() {
+  await postStore.createComment(newComment.value, postDetail.value.id)
+  newComment.value = ''
 }
 </script>
 <style lang="scss" scoped>

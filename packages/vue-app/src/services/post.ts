@@ -35,12 +35,24 @@ export async function sendLoadPosts(): Promise<Post[]> {
 }
 
 export async function sendLike(postId: number): Promise<boolean> {
-  const res = await request<{ data: any }>(`/api/posts/${postId}/like`, {method: 'PUT'})
+  const res = await request<{ data: any }>(`/api/posts/${postId}/like`, { method: 'PUT' })
   return res.data
 }
 export async function sendSave(postId: number): Promise<boolean> {
-  const res = await request<{ data: any }>(`/api/posts/${postId}/save`, {method: 'PUT'})
+  const res = await request<{ data: any }>(`/api/posts/${postId}/save`, { method: 'PUT' })
   return res.data
+}
+
+export async function sendNewComment(msg: string, postId: number) {
+  await request<void>(`/api/comments`, {
+    method: 'POST',
+    body: {
+      data: {
+        content: msg,
+        has_comment: postId
+      }
+    }
+  })
 }
 
 export interface Post {

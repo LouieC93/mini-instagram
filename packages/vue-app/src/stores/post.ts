@@ -1,4 +1,11 @@
-import { sendLike, sendLoadPosts, sendNewPost, sendSave, type Post } from '@/services/post'
+import {
+  sendLike,
+  sendLoadPosts,
+  sendNewComment,
+  sendNewPost,
+  sendSave,
+  type Post
+} from '@/services/post'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -64,6 +71,12 @@ export const usePostStore = defineStore('postStore', () => {
     return post
   }
 
+  async function createComment(msg: string, postId: number) {
+    await sendNewComment(msg, postId)
+    const post = allPosts.value.find((post) => post.id === postId) as Post
+    post.comments++
+  }
+
   return {
     isUploadModalShow,
     closeUploadModal,
@@ -75,6 +88,7 @@ export const usePostStore = defineStore('postStore', () => {
     isDetailModalShow,
     closeDetailModal,
     openDetailModal,
-    getPostDetails
+    getPostDetails,
+    createComment
   }
 })
