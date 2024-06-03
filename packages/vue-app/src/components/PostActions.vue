@@ -4,7 +4,7 @@
       :iconId="'heart'"
       :size="size"
       :fill="likeByMe ? '#ff3c3c' : 'none'"
-      :stroke="likeByMe ? '#fff' : '#333'"
+      :stroke="likeByMe ? '#fff7' : '#333'"
       @click="emit('like')"
     />
     <p class="amount">{{ formattedLikes }}</p>
@@ -20,7 +20,7 @@
       :iconId="'collect'"
       :size="size"
       :fill="saveByMe ? '#ffd12e' : 'none'"
-      :stroke="saveByMe ? '#fff' : '#333'"
+      :stroke="saveByMe ? '#fff7' : '#333'"
       @click="emit('save')"
     />
     <p class="amount">{{ formattedSaves }}</p>

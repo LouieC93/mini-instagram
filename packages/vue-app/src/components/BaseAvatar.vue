@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" alt="avatar" class="avatar"/>
+  <img :src="src || defaultAvatar" alt="avatar" class="avatar"/>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
