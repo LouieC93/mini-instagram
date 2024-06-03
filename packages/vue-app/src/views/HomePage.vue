@@ -3,7 +3,7 @@
     <PostList>
       <PostItem :post="post" v-for="post in allPosts" :key="post.id"/>
     </PostList>
-    <PostDetailModal v-if="false" />
+    <PostDetailModal v-if="isDetailModalOpen" />
     <PostUpload v-if="isUploadModalOpen" />
   </main>
 </template>
@@ -18,12 +18,14 @@ import { usePostStore } from '@/stores/post'
 
 const postStore = usePostStore()
 const isUploadModalOpen = computed(() => postStore.isUploadModalShow)
+const isDetailModalOpen = computed(() => postStore.isDetailModalShow)
 
 const allPosts = computed(()=>postStore.allPosts) 
 
 onMounted(() => {
   postStore.getAllPosts()
 })
+
 </script>
 
 <style lang="scss" scoped>

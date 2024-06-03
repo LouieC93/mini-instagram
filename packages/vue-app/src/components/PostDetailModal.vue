@@ -1,39 +1,25 @@
 <template>
-  <BaseModal>
+  <BaseModal @close="postStore.closeDetailModal()">
     <div class="detail-container">
       <div class="img-container">
-        <!-- <h1>23</h1> -->
-        <img
-          src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?q=80&w=3328&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="detail"
-        />
-        <!-- <img
-            src="https://images.unsplash.com/photo-1623593721974-f39b78528626?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-          /> -->
+        <img :src="postDetail.imgUrl" alt="detail-image" />
       </div>
 
       <div class="details">
         <div class="user">
-          <BaseAvatar :size="avatarSize" />
-          <p class="name">NAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAME</p>
+          <BaseAvatar :size="avatarSize" :src="postDetail.post_by.avatar_link" />
+          <p class="name">{{ postDetail.post_by.nickname }}</p>
         </div>
 
         <div class="post">
           <p class="desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet alias in maxime
-            consequatur quaerat iste similique sequi tenetur quasi ipsum nam quibusdam quidem minima
-            architecto, officiis temporibus reiciendis deleniti assumenda cum laboriosam. Officia
-            inventore odit voluptate quae, ab, ducimus quas ut architecto quis voluptatem, neque
-            esse at et id dolorem exercitationem possimus reiciendis quibusdam debitis veritatis?
-            Earum quas exercitationem dignissimos. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Molestiae quidem explicabo deserunt obcaecati, vel neque.
+            {{ postDetail.description }}
           </p>
-          <p class="tags">#123 #456 #123 #456 #123 #456</p>
-          <p class="time">2024-11-22</p>
+          <!-- <p class="tags"></p> -->
+          <p class="time">{{ formattedDate }}</p>
           <div class="comment" v-for="(item, index) in 10" :key="index">
             <BaseAvatar :size="avatarSize" class="avatar" />
-            <p class="name">NAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAME</p>
+            <p class="name">NAMENAMME</p>
             <p class="msg">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, deleniti.
             </p>
@@ -51,7 +37,16 @@
         </div>
 
         <div class="action-container">
-          <PostActions :size="iconSize" />
+          <PostActions
+            :size="iconSize"
+            :likes="postDetail?.like_by"
+            :saves="postDetail?.save_by"
+            :comments="postDetail?.comments"
+            :likeByMe="postDetail?.likedByMe"
+            :saveByMe="postDetail?.savedByMe"
+            @like="toggleAction('like')"
+            @save="toggleAction('save')"
+          />
           <div class="submit-container">
             <input
               type="text"
@@ -67,14 +62,24 @@
   </BaseModal>
 </template>
 <script lang="ts" setup>
+import { usePostStore } from '@/stores/post'
 import BaseAvatar from './BaseAvatar.vue'
 import BaseModal from './BaseModal.vue'
 import PostActions from './PostActions.vue'
+import { computed } from 'vue'
+import { getPublishDate } from '@/utils/date'
 
 const avatarSize = 32
 const iconSize = 24
 
 const newComment = defineModel()
+
+const postStore = usePostStore()
+const postDetail = computed(() => postStore.getPostDetails())
+const formattedDate = computed(() => getPublishDate(postDetail.value?.publishedAt) || '')
+function toggleAction(type: 'like' | 'save') {
+  postStore.togglePostActions(type, postDetail.value?.id)
+}
 </script>
 <style lang="scss" scoped>
 .detail-container {
@@ -122,6 +127,7 @@ const newComment = defineModel()
       display: grid;
       grid-gap: 12px;
       grid-template-columns: repeat(2, minmax(0, auto));
+      justify-content: left;
       align-items: center;
       overflow: hidden;
     }
@@ -134,6 +140,7 @@ const newComment = defineModel()
         display: none;
       }
       > p {
+        white-space: pre-line;
         margin-bottom: 12px;
       }
       .tags {

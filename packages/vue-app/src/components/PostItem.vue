@@ -1,6 +1,6 @@
 <template>
-  <div class="post">
-    <div class="img-container">
+  <div class="post" v-if="post">
+    <div class="img-container" @click="postStore.openDetailModal(post.id)">
       <img :src="post?.imgUrl" alt="post-image" />
     </div>
     <div class="post-info">
@@ -20,9 +20,10 @@
           :saveByMe="post?.savedByMe"
           @like="toggleAction('like')"
           @save="toggleAction('save')"
+          @comment="postStore.openDetailModal(post.id)"
         />
       </div>
-      <p class="desc">
+      <p class="desc" @click="postStore.openDetailModal(post.id)">
         {{ post?.description }}
       </p>
     </div>
@@ -68,6 +69,10 @@ function toggleAction(type: 'like' | 'save') {
   scroll-margin-top: 36px;
   &:nth-child(1) {
     scroll-margin-top: 48px;
+  }
+  .img-container,
+  .desc {
+    cursor: pointer;
   }
 }
 .img-container {

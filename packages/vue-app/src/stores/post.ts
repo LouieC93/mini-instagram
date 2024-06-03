@@ -49,6 +49,21 @@ export const usePostStore = defineStore('postStore', () => {
     }
   }
 
+  const isDetailModalShow = ref(false)
+  const currentPostId = ref<number | null>(null)
+  function closeDetailModal() {
+    isDetailModalShow.value = false
+    currentPostId.value = null
+  }
+  function openDetailModal(postId: number) {
+    isDetailModalShow.value = true
+    currentPostId.value = postId
+  }
+  function getPostDetails(): Post {
+    const post = allPosts.value.find((post) => post.id === currentPostId.value) as Post
+    return post
+  }
+
   return {
     isUploadModalShow,
     closeUploadModal,
@@ -56,6 +71,10 @@ export const usePostStore = defineStore('postStore', () => {
     createPost,
     allPosts,
     getAllPosts,
-    togglePostActions
+    togglePostActions,
+    isDetailModalShow,
+    closeDetailModal,
+    openDetailModal,
+    getPostDetails
   }
 })
