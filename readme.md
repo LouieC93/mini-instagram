@@ -23,3 +23,4 @@ This monorepo project is managed by `pnpm`, so you must install `pnpm` first.
 ### More about pnpm
 
 - If you want to add some packages at certain sub-package like vue-app, use `--filter` command, e.g. `pnpm add -F xxx`.
+- If you want to run the front-end app only, use `pnpm -F mini-instagram-vue dev`.
