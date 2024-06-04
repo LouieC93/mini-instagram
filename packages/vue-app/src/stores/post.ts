@@ -1,9 +1,11 @@
 import {
   sendLike,
+  sendLoadComments,
   sendLoadPosts,
   sendNewComment,
   sendNewPost,
   sendSave,
+  type Comment,
   type Post
 } from '@/services/post'
 import { defineStore } from 'pinia'
@@ -62,20 +64,28 @@ export const usePostStore = defineStore('postStore', () => {
     isDetailModalShow.value = false
     currentPostId.value = null
   }
-  function openDetailModal(postId: number) {
-    isDetailModalShow.value = true
+  async function openDetailModal(postId: number) {
     currentPostId.value = postId
+    await getAllComments(postId)
+    isDetailModalShow.value = true
   }
   function getPostDetails(): Post {
     const post = allPosts.value.find((post) => post.id === currentPostId.value) as Post
     return post
   }
 
+  const allComments = ref<Comment[]>([])
   async function createComment(msg: string, postId: number) {
     await sendNewComment(msg, postId)
+    await getAllComments(postId)
     const post = allPosts.value.find((post) => post.id === postId) as Post
     post.comments++
   }
+  async function getAllComments(postId: number) {
+    const res = await sendLoadComments(postId)
+    allComments.value = res
+  }
+
 
   return {
     isUploadModalShow,
@@ -89,6 +99,7 @@ export const usePostStore = defineStore('postStore', () => {
     closeDetailModal,
     openDetailModal,
     getPostDetails,
-    createComment
+    createComment,
+    allComments
   }
 })

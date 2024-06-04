@@ -17,22 +17,13 @@
           </p>
           <!-- <p class="tags"></p> -->
           <p class="time">{{ formattedDate }}</p>
-          <div class="comment" v-for="(item, index) in 10" :key="index">
-            <BaseAvatar :size="avatarSize" class="avatar" />
-            <p class="name">NAMENAMME</p>
+          <div class="comment" v-for="comment in comments" :key="comment.id">
+            <BaseAvatar :size="avatarSize" class="avatar" :src="comment.comment_by.avatar_link" />
+            <p class="name">{{ comment.comment_by.nickname }}</p>
             <p class="msg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, deleniti.
+              {{ comment.content }}
             </p>
-            <p class="time">2024-11-22</p>
-          </div>
-          <div class="comment">
-            <BaseAvatar :size="avatarSize" class="avatar" />
-            <p class="name">NAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAME</p>
-            <p class="msg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, deleniti. Lorem ipsum
-              dolor sit amet, consectetur adipisicing elit. Distinctio, repudiandae.
-            </p>
-            <p class="time">2024-11-22</p>
+            <p class="time">{{ comment.publishedAt }}</p>
           </div>
         </div>
 
@@ -72,7 +63,7 @@ import { getPublishDate } from '@/utils/date'
 const avatarSize = 32
 const iconSize = 24
 
-const newComment = defineModel<string>({default: ''})
+const newComment = defineModel<string>({ default: '' })
 
 const postStore = usePostStore()
 const postDetail = computed(() => postStore.getPostDetails())
@@ -80,6 +71,15 @@ const formattedDate = computed(() => getPublishDate(postDetail.value?.publishedA
 function toggleAction(type: 'like' | 'save') {
   postStore.togglePostActions(type, postDetail.value?.id)
 }
+
+const comments = computed(() =>
+  postStore.allComments.map((comment) => {
+    return {
+      ...comment,
+      publishedAt: getPublishDate(comment.publishedAt)
+    }
+  })
+)
 
 async function submitComment() {
   await postStore.createComment(newComment.value, postDetail.value.id)
