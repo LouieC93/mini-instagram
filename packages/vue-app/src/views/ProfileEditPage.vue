@@ -1,45 +1,72 @@
 <template>
-  <main>
+  <form @submit.prevent="handleSubmit">
     <h1>Edit profile</h1>
     <section class="avatar-container">
-      <BaseAvatar :size="72" />
+      <BaseAvatar :size="72" :src="userForm.avatar_link" />
       <label class="button" for="upload">
         <span>Change photo</span>
       </label>
-      <input type="file" id="upload" accept="'image/*'" />
+      <input type="file" id="upload" accept="'image/*'" @change="handleUpload" />
     </section>
     <section>
-      <h2>Account ID</h2>
-      <input type="text" name="" id="" />
+      <h2>Username</h2>
+      <input type="text" v-model="userForm.username" readonly />
     </section>
     <section>
       <h2>Nickname</h2>
-      <input type="text" name="" id="" />
+      <input type="text" v-model="userForm.nickname" />
     </section>
     <section>
       <h2>Introduction</h2>
-      <textarea name="" id=""></textarea>
+      <textarea v-model="userForm.intro"></textarea>
     </section>
     <section>
       <h2>Notification</h2>
-      <label class="toggle" :class="{ active }" for="notification" @click="active = !active"
+      <label
+        class="toggle"
+        :class="{ active: userForm.notification }"
+        for="notification"
+        @click="userForm.notification = !userForm.notification"
         ><span class="slider"></span>
       </label>
-      <input type="checkbox" name="" id="notification" />
+      <input type="checkbox" v-model="userForm.notification" />
     </section>
     <section class="submit-container">
-      <button type="button">Submit</button>
+      <button type="submit">Submit</button>
     </section>
-  </main>
+  </form>
 </template>
 <script lang="ts" setup>
 import BaseAvatar from '@/components/BaseAvatar.vue'
-import { ref } from 'vue'
-const active = ref(false)
+import { computed, ref } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router';
+
+const userStore = useUserStore()
+const defaultUser = computed(() => userStore.user)
+const userForm = ref({
+  avatar_link: defaultUser.value.avatar_link,
+  username: defaultUser.value.username,
+  nickname: defaultUser.value.nickname,
+  intro: defaultUser.value.intro,
+  notification: defaultUser.value.notification
+})
+async function handleUpload(e: Event) {
+  const uploadedFile = (e.target as HTMLInputElement).files?.[0]
+  const newUrl = await userStore.uploadAvatar(uploadedFile as File)
+  userForm.value.avatar_link = newUrl
+}
+
+
+const router = useRouter()
+async function handleSubmit() {
+  await userStore.updateUserData(userForm.value)
+  router.push({ name: 'profile' })
+}
 </script>
 
 <style lang="scss" scoped>
-main {
+form {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   align-content: start;
@@ -75,7 +102,10 @@ main {
     input[type='checkbox'] {
       display: none;
     }
-    button[type='button'] {
+    input[readonly] {
+      background: #eee;
+    }
+    button[type='submit'] {
       background: $blue;
       font-size: 18px;
       color: #fff;

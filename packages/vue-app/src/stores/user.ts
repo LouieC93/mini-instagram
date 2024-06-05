@@ -1,15 +1,27 @@
-import {
-  getUser,
-  logoutAndClear,
-  sendLogin,
-  sendRegister,
-  type UserResponse
-} from '@/services/auth'
+import { getUser, logoutAndClear, sendLogin, sendRegister } from '@/services/auth'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { sendUpdateUser, type UserResponse } from '@/services/user'
+import { sendFileUpload } from '@/services/common'
 
 export const useUserStore = defineStore('userStore', () => {
-  const user = ref<UserResponse | {}>(getUser() || {})
+  function _getInitUser() {
+    return {
+      id: NaN,
+      username: '',
+      email: '',
+      provider: '',
+      confirmed: true,
+      blocked: false,
+      createdAt: '',
+      updatedAt: '',
+      nickname: '',
+      intro: '',
+      notification: true,
+      avatar_link: ''
+    }
+  }
+  const user = ref<UserResponse>(getUser() || _getInitUser())
   async function registerUser(params: { email: string; username: string; password: string }) {
     const { email, username, password } = params
     const userData = await sendRegister(email, username, password)
@@ -22,7 +34,17 @@ export const useUserStore = defineStore('userStore', () => {
   }
   function logout() {
     logoutAndClear()
-    user.value = {}
+    user.value = _getInitUser()
   }
-  return { user, registerUser, loginUser, logout}
+
+  async function uploadAvatar(file: File) {
+    const res = await sendFileUpload(file)
+    return res
+  }
+
+  async function updateUserData(data: any) {
+    const updatedUser = await sendUpdateUser(data)
+    user.value = updatedUser
+  }
+  return { user, registerUser, loginUser, logout, updateUserData, uploadAvatar }
 })

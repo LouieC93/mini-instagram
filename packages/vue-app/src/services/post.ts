@@ -1,5 +1,5 @@
 import { request } from '@/utils/http'
-import type { UserResponse } from './auth'
+import type { UserResponse } from './user'
 
 export async function sendNewPost(image: File, description: string) {
   const body = new FormData()

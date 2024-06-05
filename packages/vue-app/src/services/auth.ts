@@ -1,4 +1,5 @@
 import { request } from '@/utils/http'
+import type { UserResponse } from './user'
 
 export function getJwtToken() {
   return localStorage.getItem('jwtToken')
@@ -54,18 +55,4 @@ export function logoutAndClear() {
 export interface RegisterResponse {
   jwt: string
   user: UserResponse
-}
-export interface UserResponse {
-  id: number
-  username: string
-  email: string
-  provider: string
-  confirmed: boolean
-  blocked: boolean
-  createdAt: string
-  updatedAt: string
-  nickname: string
-  intro: string
-  notification: boolean
-  avatar_link: string
 }
