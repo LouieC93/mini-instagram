@@ -10,10 +10,10 @@
     <div class="buttons-container">
       <BaseIcon :iconId="'add'" @click="addPost" />
       <div class="avatar-container" @click="toggleDropdown">
-        <BaseAvatar />
+        <BaseAvatar :src="userAvatar" />
         <div class="dropdown-menu" v-if="isDropdownShow">
           <ul>
-            <li>Profile</li>
+            <li @click="router.push({ name: 'profile' })">Profile</li>
             <li @click="logout">Logout</li>
           </ul>
           <div class="triangle"></div>
@@ -26,7 +26,7 @@
 import { RouterLink, useRouter } from 'vue-router'
 import BaseIcon from './BaseIcon.vue'
 import BaseAvatar from './BaseAvatar.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { usePostStore } from '@/stores/post'
 
@@ -47,6 +47,7 @@ function logout() {
   userStore.logout()
   router.replace({ name: 'login' })
 }
+const userAvatar = computed(() => userStore.user.avatar_link)
 </script>
 <style scoped lang="scss">
 nav {

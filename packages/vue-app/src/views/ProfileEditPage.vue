@@ -32,6 +32,7 @@
       <input type="checkbox" v-model="userForm.notification" />
     </section>
     <section class="submit-container">
+      <button type="button" @click="handleCancel">Cancel</button>
       <button type="submit">Submit</button>
     </section>
   </form>
@@ -40,7 +41,7 @@
 import BaseAvatar from '@/components/BaseAvatar.vue'
 import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const defaultUser = computed(() => userStore.user)
@@ -57,10 +58,12 @@ async function handleUpload(e: Event) {
   userForm.value.avatar_link = newUrl
 }
 
-
 const router = useRouter()
 async function handleSubmit() {
   await userStore.updateUserData(userForm.value)
+  router.push({ name: 'profile' })
+}
+function handleCancel() {
   router.push({ name: 'profile' })
 }
 </script>
@@ -105,12 +108,19 @@ form {
     input[readonly] {
       background: #eee;
     }
-    button[type='submit'] {
-      background: $blue;
+    button[type='submit'],
+    button[type='button'] {
+      background: #fff;
       font-size: 18px;
-      color: #fff;
       border-radius: 12px;
       padding: 12px 36px;
+      border: 1px solid #999;
+    }
+    button[type='submit'] {
+      border: none;
+      color: #fff;
+      background: $blue;
+      margin-top: 12px;
     }
     .toggle {
       display: block;

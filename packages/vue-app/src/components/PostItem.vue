@@ -7,7 +7,7 @@
       <div class="prop-container">
         <div class="left">
           <div class="avatar-container">
-            <BaseAvatar :size="36" />
+            <BaseAvatar :size="36" :src="post?.post_by.avatar_link"/>
             <p class="name">{{ post?.post_by.nickname }}</p>
           </div>
           <p class="date">{{ formattedDate }}</p>
