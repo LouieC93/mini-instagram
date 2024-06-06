@@ -10,6 +10,7 @@
     <div class="buttons-container">
       <BaseIcon :iconId="'add'" @click="addPost" />
       <div class="avatar-container" @click="toggleDropdown">
+        <div class="backdrop" v-if="isDropdownShow"></div>
         <BaseAvatar :src="userAvatar" />
         <div class="dropdown-menu" v-if="isDropdownShow">
           <ul>
@@ -94,12 +95,23 @@ nav {
   }
   .avatar-container {
     position: relative;
+    .backdrop {
+      position: fixed;
+      width: 100dvw;
+      height: 100dvh;
+      left: 0;
+      top: 0;
+      background: #3332;
+      z-index: 1;
+      cursor: auto;
+    }
     .dropdown-menu {
       position: absolute;
+      z-index: 2;
       right: 0;
       bottom: -12px;
       transform: translateY(100%);
-      filter: drop-shadow(0 4px 6px #3333);
+      filter: drop-shadow(0 4px 6px #6663);
       > * {
         background: #fefefe;
       }
