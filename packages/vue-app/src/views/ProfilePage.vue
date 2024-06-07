@@ -2,49 +2,39 @@ import type BaseAvatar from '@/components/BaseAvatar.vue';
 <template>
   <main>
     <section class="info-container">
-      <BaseAvatar :size="120" />
+      <BaseAvatar :size="120" :src="user?.avatar_link" />
       <div class="profile">
         <div>
-          <p class="name">NAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAMENAME</p>
+          <p class="name">{{ user?.nickname }}</p>
           <router-link :to="{ name: 'profileEdit' }">Edit Profile</router-link>
         </div>
-        <p class="account">
-          @ACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNTACCOUNT
-        </p>
+        <p class="account">@{{ user?.username }}</p>
         <p class="intro">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum hic nam repellendus
-          voluptate aut, quisquam eos tempora facilis! Est, et? Odit dolorem nemo illo similique
-          quas placeat quidem earum officia.
+          {{ user?.intro }}
         </p>
       </div>
     </section>
     <section class="tabs-container">
-      <div class="tab">
-        <BaseIcon :icon-id="'posts'" :size="tabSize" :fill="'#000'" :stroke="'none'" />
-        <span>POSTS</span>
-      </div>
-      <div class="tab">
-        <BaseIcon :icon-id="'heart'" :size="tabSize" :fill="'none'" :stroke="'#000'" />
-        <span>LIKES</span>
-      </div>
-      <div class="tab">
-        <BaseIcon :icon-id="'collect'" :size="tabSize" :fill="'none'" :stroke="'#000'" />
-        <span>SAVES</span>
+      <div
+        class="tab"
+        v-for="(tab, index) in tabs"
+        :key="index"
+        :class="{ active: index === currentTab }"
+        @click="currentTab = index"
+      >
+        <BaseIcon
+          :icon-id="tab.icon"
+          :size="tabSize"
+          :fill="index === currentTab ? '#0092ea' : '#333'"
+          :stroke="'none'"
+        />
+        <span>{{ tab.name }}</span>
       </div>
     </section>
-    <p class="amount">123 posts</p>
+    <p class="amount">{{ currentPreviews.length }} posts</p>
     <section class="posts-container">
-      <div class="prev" v-for="(item, index) in 10" :key="index">
-        <img
-          src="https://images.unsplash.com/photo-1715523089278-c2c768164abb?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="post"
-        />
-      </div>
-      <div class="prev" v-for="(item, index) in 10" :key="index">
-        <img
-          src="https://images.unsplash.com/photo-1707730376818-a7a02fe896d5?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="post"
-        />
+      <div class="prev" v-for="preview in currentPreviews" :key="preview.id">
+        <img :src="preview.imgUrl" alt="preview-image" />
       </div>
     </section>
   </main>
@@ -52,9 +42,56 @@ import type BaseAvatar from '@/components/BaseAvatar.vue';
 <script lang="ts" setup>
 import BaseAvatar from '@/components/BaseAvatar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
-import { ref } from 'vue'
+import type { Post, PreviewImages } from '@/services/post'
+import { usePostStore } from '@/stores/post'
+import { useUserStore } from '@/stores/user'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const tabSize = ref(24)
+const tabs = ref([
+  {
+    icon: 'posts',
+    name: 'POSTS'
+  },
+  {
+    icon: 'heart',
+    name: 'LIKES'
+  },
+  {
+    icon: 'collect',
+    name: 'SAVES'
+  }
+])
+const currentTab = ref(0)
+const currentPreviews = ref<PreviewImages[] | Post[]>([])
+watch(currentTab, (newIndex) => {
+  switch (newIndex) {
+    case 0:
+      currentPreviews.value = myPreviews.value
+      break
+    case 1:
+      currentPreviews.value = myLikedPreviews.value
+      break
+    case 2:
+      currentPreviews.value = mySavedPreviews.value
+      break
+  }
+})
+
+const postStore = usePostStore()
+const myPreviews = computed(() => postStore.myPosts)
+const myLikedPreviews = computed(() => postStore.myLikedPosts)
+const mySavedPreviews = computed(() => postStore.mySavedPosts)
+
+onMounted(async () => {
+  await postStore.getMyPosts(userStore.user.id)
+  postStore.getMyLikedPosts()
+  postStore.getMySavedPosts()
+  currentPreviews.value = myPreviews.value
+})
+
+const userStore = useUserStore()
+const user = computed(() => userStore.user)
 </script>
 <style lang="scss" scoped>
 main {
@@ -75,11 +112,12 @@ main {
   }
   .info-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 60px;
+    grid-template-columns: 1fr 4fr;
+    grid-gap: 48px;
     align-items: center;
     align-content: start;
     .avatar {
+      align-self: start;
       justify-self: end;
     }
     .profile {
@@ -101,6 +139,7 @@ main {
       }
       .intro {
         margin-top: 18px;
+        white-space: pre-wrap;
       }
       a {
         color: #fff;
@@ -110,6 +149,7 @@ main {
         white-space: nowrap;
         font-size: 14px;
         font-weight: bold;
+        justify-self: end;
       }
     }
   }
@@ -126,6 +166,16 @@ main {
       grid-template-rows: repeat(2, auto);
       grid-gap: 6px;
       justify-items: center;
+      cursor: pointer;
+      > span {
+        font-weight: 500;
+      }
+    }
+    .tab.active {
+      color: $blue;
+      > span {
+        font-weight: bold;
+      }
     }
   }
   .amount {

@@ -1,12 +1,16 @@
 import {
   sendLike,
   sendLoadComments,
+  sendLoadLikedPosts,
+  sendLoadMyPosts,
   sendLoadPosts,
+  sendLoadSavedPosts,
   sendNewComment,
   sendNewPost,
   sendSave,
   type Comment,
-  type Post
+  type Post,
+  type PreviewImages
 } from '@/services/post'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -28,6 +32,18 @@ export const usePostStore = defineStore('postStore', () => {
   const allPosts = ref<Post[]>([])
   async function getAllPosts() {
     allPosts.value = await sendLoadPosts()
+  }
+  const myPosts = ref<PreviewImages[]>([])
+  const myLikedPosts = ref<PreviewImages[]>([])
+  const mySavedPosts = ref<PreviewImages[]>([])
+  async function getMyPosts(userId: number) {
+    myPosts.value = await sendLoadMyPosts(userId)
+  }
+  async function getMyLikedPosts() {
+    myLikedPosts.value = await sendLoadLikedPosts()
+  }
+  async function getMySavedPosts() {
+    mySavedPosts.value = await sendLoadSavedPosts()
   }
 
   async function togglePostActions(type: 'like' | 'save', postID: number) {
@@ -86,7 +102,6 @@ export const usePostStore = defineStore('postStore', () => {
     allComments.value = res
   }
 
-
   return {
     isUploadModalShow,
     closeUploadModal,
@@ -100,6 +115,12 @@ export const usePostStore = defineStore('postStore', () => {
     openDetailModal,
     getPostDetails,
     createComment,
-    allComments
+    allComments,
+    myPosts,
+    myLikedPosts,
+    mySavedPosts,
+    getMyPosts,
+    getMyLikedPosts,
+    getMySavedPosts
   }
 })

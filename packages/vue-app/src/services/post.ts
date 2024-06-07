@@ -13,8 +13,9 @@ export async function sendNewPost(image: File, description: string) {
   })
 }
 
-export async function sendLoadPosts(): Promise<Post[]> {
-  const res = await request<{ data: any[] }>('/api/posts?populate=*')
+export async function sendLoadPosts(filter = ''): Promise<Post[]> {
+  // console.log('[Target]', '/api/posts?populate=*' + (filter && filter))
+  const res = await request<{ data: any[] }>('/api/posts?populate=*' + (filter && filter))
   return res.data
     .map((post) => {
       return {
@@ -34,6 +35,32 @@ export async function sendLoadPosts(): Promise<Post[]> {
       } as Post
     })
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+}
+
+export async function sendLoadMyPosts(userId: number): Promise<Post[]> {
+  return await sendLoadPosts(`&filters[post_by][id][$eq]=${userId}`)
+}
+
+export async function sendLoadLikedPosts(): Promise<PreviewImages[]> {
+  const res = await request<any>(`/api/users/me?populate[likes][populate][0]=image`)
+  return res.likes?.map((post: any) => {
+    return {
+      id: post?.id,
+      publishedAt: post?.publishedAt,
+      imgUrl: post?.image?.url
+    }
+  })
+}
+
+export async function sendLoadSavedPosts(): Promise<PreviewImages[]> {
+  const res = await request<any>(`/api/users/me?populate[saves][populate][0]=image`)
+  return res.saves?.map((post: any) => {
+    return {
+      id: post?.id,
+      publishedAt: post?.publishedAt,
+      imgUrl: post?.image?.url
+    }
+  })
 }
 
 export async function sendLike(postId: number): Promise<boolean> {
@@ -61,19 +88,18 @@ export async function sendLoadComments(postId: number): Promise<Comment[]> {
   const res = await request<{ meta: any; data: any[] }>(
     '/api/comments?populate=*&filters[has_comment][id][$eq]=' + postId
   )
-  return res.data
-    .map((comment) => {
-      return {
-        id: comment.id,
-        content: comment.attributes.content,
-        publishedAt: comment.attributes.publishedAt,
-        comment_by: {
-          ...comment.attributes.comment_by.data.attributes,
-          id: comment.attributes.comment_by.data.id
-        }
+  return res.data.map((comment) => {
+    return {
+      id: comment.id,
+      content: comment.attributes.content,
+      publishedAt: comment.attributes.publishedAt,
+      comment_by: {
+        ...comment.attributes.comment_by.data.attributes,
+        id: comment.attributes.comment_by.data.id
       }
-    })
-    // .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    }
+  })
+  // .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
 }
 
 export interface Post {
@@ -94,4 +120,10 @@ export interface Comment {
   content: string
   publishedAt: string
   comment_by: UserResponse
+}
+
+export interface PreviewImages {
+  id: number
+  imgUrl: string
+  publishedAt: string
 }
