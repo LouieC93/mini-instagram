@@ -3,11 +3,12 @@
     <div class="search-words">
       <h1>search result: {{ keyword }}</h1>
     </div>
-    <PostList>
-      <PostItem v-for="(item, index) in 20" :key="index" @click="open" />
+    <PostList v-if="searchPosts.length">
+      <PostItem v-for="post in searchPosts" :post="post" :key="post.id" />
     </PostList>
-    <PostDetailModal @close="close" v-if="isModalOpen" />
-    <PostUpload v-if="false" />
+    <h1 v-else>No matched post</h1>
+    <PostDetailModal v-if="isDetailModalOpen" />
+    <PostUpload v-if="isUploadModalOpen" />
   </main>
 </template>
 <script lang="ts" setup>
@@ -15,17 +16,21 @@ import PostDetailModal from '@/components/PostDetailModal.vue'
 import PostUpload from '@/components/PostUploadModal.vue'
 import PostList from '@/components/PostList.vue'
 import PostItem from '@/components/PostItem.vue'
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { usePostStore } from '@/stores/post'
 
-const isModalOpen = ref(false)
-function close() {
-  isModalOpen.value = false
-}
-function open() {
-  isModalOpen.value = true
-}
+const isUploadModalOpen = computed(() => postStore.isUploadModalShow)
+const isDetailModalOpen = computed(() => postStore.isDetailModalShow)
 
-const keyword = ref('123456')
+const route = useRoute()
+const keyword = computed(() => route.query.q as string)
+const postStore = usePostStore()
+const searchPosts = computed(() => postStore.searchPosts)
+
+onMounted(async () => {
+  await postStore.getSearchPosts(keyword.value)
+})
 </script>
 
 <style lang="scss" scoped>

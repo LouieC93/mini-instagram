@@ -3,7 +3,7 @@
     <BaseIcon
       :iconId="'heart'"
       :size="size"
-      :fill="likeByMe ? '#ff3c3c' : 'none'"
+      :fill="likeByMe ? '#f95738' : 'none'"
       :stroke="likeByMe ? '#fff7' : '#333'"
       @click="emit('like')"
     />
@@ -19,7 +19,7 @@
     <BaseIcon
       :iconId="'collect'"
       :size="size"
-      :fill="saveByMe ? '#ffd12e' : 'none'"
+      :fill="saveByMe ? '#f4d35e' : 'none'"
       :stroke="saveByMe ? '#fff7' : '#333'"
       @click="emit('save')"
     />

@@ -12,7 +12,7 @@ import PostDetailModal from '@/components/PostDetailModal.vue'
 import PostUpload from '@/components/PostUploadModal.vue'
 import PostList from '@/components/PostList.vue'
 import PostItem from '@/components/PostItem.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { usePostStore } from '@/stores/post'
 
 

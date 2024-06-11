@@ -14,7 +14,6 @@ export async function sendNewPost(image: File, description: string) {
 }
 
 export async function sendLoadPosts(filter = ''): Promise<Post[]> {
-  // console.log('[Target]', '/api/posts?populate=*' + (filter && filter))
   const res = await request<{ data: any[] }>('/api/posts?populate=*' + (filter && filter))
   return res.data
     .map((post) => {

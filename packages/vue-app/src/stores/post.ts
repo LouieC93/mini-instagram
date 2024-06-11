@@ -102,6 +102,12 @@ export const usePostStore = defineStore('postStore', () => {
     allComments.value = res
   }
 
+  const searchPosts = ref<Post[]>([])
+  async function getSearchPosts(keyword: string) {
+    const res = await sendLoadPosts(`&filters[description][$contains]=${keyword}`)
+    searchPosts.value = res
+  }
+
   return {
     isUploadModalShow,
     closeUploadModal,
@@ -121,6 +127,8 @@ export const usePostStore = defineStore('postStore', () => {
     mySavedPosts,
     getMyPosts,
     getMyLikedPosts,
-    getMySavedPosts
+    getMySavedPosts,
+    getSearchPosts,
+    searchPosts
   }
 })

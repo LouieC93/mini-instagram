@@ -3,10 +3,10 @@
     <router-link class="logo" :to="{ name: 'home' }">
       <img src="../assets//logo.png" alt="logo" />
     </router-link>
-    <div class="search-container">
-      <BaseIcon :iconId="'search'" :size="24" />
+    <form class="search-container" @submit.prevent="searchPosts">
+      <BaseIcon :iconId="'search'" :size="24" @click="searchPosts" />
       <input type="text" v-model="searchText" />
-    </div>
+    </form>
     <div class="buttons-container">
       <BaseIcon :iconId="'add'" @click="addPost" />
       <div class="avatar-container" @click="toggleDropdown">
@@ -31,7 +31,6 @@ import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { usePostStore } from '@/stores/post'
 
-const searchText = defineModel<string>()
 const isDropdownShow = ref(false)
 
 const postStore = usePostStore()
@@ -49,6 +48,12 @@ function logout() {
   router.replace({ name: 'login' })
 }
 const userAvatar = computed(() => userStore.user.avatar_link)
+
+const searchText = ref('')
+async function searchPosts() {
+  await postStore.getSearchPosts(searchText.value)
+  router.push({ name: 'search', query: { q: searchText.value } })
+}
 </script>
 <style scoped lang="scss">
 nav {
@@ -78,6 +83,9 @@ nav {
       background: none;
       border: none;
       padding: 0;
+    }
+    > svg {
+      cursor: pointer;
     }
   }
   .buttons-container {
