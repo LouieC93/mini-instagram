@@ -181,7 +181,7 @@ nav {
   nav {
     .logo {
       > img {
-        width: 28px;
+        width: 30px;
       }
     }
     .search-container {
