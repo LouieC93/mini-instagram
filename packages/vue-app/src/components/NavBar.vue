@@ -51,6 +51,7 @@ const userAvatar = computed(() => userStore.user.avatar_link)
 
 const searchText = ref('')
 async function searchPosts() {
+  if (!searchText.value.trim()) return
   await postStore.getSearchPosts(searchText.value)
   router.push({ name: 'search', query: { q: searchText.value } })
 }
@@ -150,6 +151,56 @@ nav {
       }
       li {
         cursor: pointer;
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  nav {
+    height: 60px;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    .logo {
+      grid-column: 2 / 3;
+      > img {
+        width: 36px;
+      }
+    }
+    .search-container {
+      grid-column: 4 / 9;
+      padding: 6px;
+    }
+    .buttons-container {
+      grid-column: 10 / 12;
+    }
+    .avatar-container .dropdown-menu {
+      bottom: -18px;
+    }
+  }
+}
+@media (max-width: 640px) {
+  nav {
+    .logo {
+      > img {
+        width: 28px;
+      }
+    }
+    .search-container {
+      grid-column: 3 / 9;
+      margin-left: 12px;
+      > svg {
+        width: 24px;
+      }
+    }
+    .buttons-container {
+      grid-column: 10 / 12;
+      > svg {
+        width: 30px;
+      }
+    }
+    .avatar-container {
+      > img {
+        width: 36px;
+        height: 36px;
       }
     }
   }

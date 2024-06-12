@@ -174,4 +174,12 @@ form {
     }
   }
 }
+@media (max-width: 1024px) {
+  form {
+    grid-template-columns: repeat(12, 1fr);
+    > * {
+      grid-column: 2 / 12;
+    }
+  }
+}
 </style>

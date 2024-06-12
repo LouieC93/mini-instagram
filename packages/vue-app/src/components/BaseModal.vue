@@ -77,4 +77,17 @@ onUnmounted(() => {
     }
   }
 }
+@media (max-width: 640px) {
+  .modal .content {
+    height: 90%;
+    > button {
+      right: 18px;
+      top: 12px;
+      > svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
 </style>

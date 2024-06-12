@@ -7,7 +7,7 @@
       <div class="prop-container">
         <div class="left">
           <div class="avatar-container">
-            <BaseAvatar :size="36" :src="post?.post_by.avatar_link"/>
+            <BaseAvatar :size="36" :src="post?.post_by.avatar_link" />
             <p class="name">{{ post?.post_by.nickname }}</p>
           </div>
           <p class="date">{{ formattedDate }}</p>
@@ -135,5 +135,39 @@ function toggleAction(type: 'like' | 'save') {
   -webkit-line-clamp: 3;
   overflow: hidden;
   white-space: pre-line;
+}
+@media (max-width: 1024px) {
+  .post-list {
+    .post:nth-child(odd) {
+      grid-column: 2 / span 5;
+    }
+    .post:nth-child(even) {
+      grid-column: 7 / span 5;
+    }
+  }
+  .post {
+    scroll-margin-top: 28px;
+  }
+}
+@media (max-width: 640px) {
+  .post-list {
+    .post {
+      scroll-margin-top: 18px;
+      .avatar-container > img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    .post:nth-child(odd) {
+      grid-column: 2 / 12;
+    }
+    .post:nth-child(even) {
+      grid-column: 2 / 12;
+    }
+  }
+  .post-info {
+    padding: 16px;
+    padding-left: 18px;
+  }
 }
 </style>

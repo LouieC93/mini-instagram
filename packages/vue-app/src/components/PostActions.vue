@@ -67,4 +67,13 @@ const formattedSaves = computed(() => getShortAmount(props.saves))
     cursor: pointer;
   }
 }
+@media (max-width: 640px) {
+  .post-actions {
+    grid-gap: 0px 2px;
+    >svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
 </style>

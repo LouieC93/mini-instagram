@@ -53,5 +53,16 @@ main {
   :deep(.post:first-child) {
     scroll-margin-top: 150px;
   }
+  > h1 {
+    text-align: center;
+    margin-top: 60px;
+  }
+}
+@media (max-width: 1024px) {
+  main {
+    .search-words {
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
 }
 </style>

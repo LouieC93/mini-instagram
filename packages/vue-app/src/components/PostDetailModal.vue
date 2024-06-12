@@ -57,11 +57,11 @@ import { usePostStore } from '@/stores/post'
 import BaseAvatar from './BaseAvatar.vue'
 import BaseModal from './BaseModal.vue'
 import PostActions from './PostActions.vue'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getPublishDate } from '@/utils/date'
 
-const avatarSize = 32
-const iconSize = 24
+const avatarSize = ref(32)
+const iconSize = ref(24)
 
 const newComment = defineModel<string>({ default: '' })
 
@@ -85,6 +85,17 @@ async function submitComment() {
   await postStore.createComment(newComment.value, postDetail.value.id)
   newComment.value = ''
 }
+
+function handleResize() {
+  if (window.innerWidth < 640) {
+    iconSize.value = 18
+    avatarSize.value = 28
+  }
+}
+
+onMounted(() => {
+  handleResize()
+})
 </script>
 <style lang="scss" scoped>
 .detail-container {
@@ -210,6 +221,51 @@ async function submitComment() {
         height: 100%;
         color: $blue;
         font-size: 16px;
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .detail-container {
+    width: 85dvw;
+  }
+}
+@media (max-width: 640px) {
+  .detail-container {
+    width: 90dvw;
+    grid-template-columns: none;
+    grid-template-rows: minmax(0, auto) 1fr;
+    .img-container {
+      grid-column: auto;
+      > img {
+        max-height: 35dvh;
+      }
+    }
+    .details {
+      grid-column: auto;
+      grid-template-rows: minmax(auto, 48px) 1fr 90px;
+      .user {
+        padding: 0px 18px;
+      }
+      .action-container {
+        grid-gap: 0;
+        padding: 6px 0;
+      }
+      :deep(.post-actions) {
+        grid-gap: 6px;
+        grid-template-rows: none;
+        grid-template-columns: repeat(3, (auto 20%));
+        align-items: center;
+        justify-items: start;
+      }
+      .submit-container {
+        input {
+          height: 28px;
+          font-size: 14px;
+        }
+      }
+      .post {
+        padding: 18px 24px;
       }
     }
   }

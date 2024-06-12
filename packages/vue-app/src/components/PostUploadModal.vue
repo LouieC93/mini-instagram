@@ -35,10 +35,10 @@ function handleUpload(e: Event) {
   }
 }
 async function submitPost() {
-  if(imgFile.value && desc.value) {
+  if (imgFile.value && desc.value) {
     await postStore.createPost(imgFile.value, desc.value)
     postStore.closeUploadModal()
-  } else{
+  } else {
     alert('Please upload a image and add a description.')
   }
 }
@@ -56,6 +56,7 @@ async function submitPost() {
       cursor: pointer;
       height: 100%;
       display: grid;
+      justify-items: center;
       grid-template-rows: 3fr 1fr;
       grid-gap: 24px;
       justify-content: center;
@@ -95,6 +96,27 @@ async function submitPost() {
     padding: 24px 0;
     color: $blue;
     font-size: 24px;
+  }
+}
+@media (max-width: 1024px) {
+  .post-upload {
+    width: 70dvw;
+  }
+}
+@media (max-width: 640px) {
+  .post-upload {
+    width: 90dvw;
+    .upload-container > label > svg {
+      width: 180px;
+    }
+    .desc-container > textarea {
+      padding: 18px;
+      font-size: 16px;
+    }
+    > button {
+      padding: 18px 0;
+      font-size: 20px;
+    }
   }
 }
 </style>

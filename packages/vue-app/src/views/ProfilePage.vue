@@ -199,4 +199,33 @@ main {
     }
   }
 }
+@media (max-width: 1024px) {
+  main {
+    grid-template-columns: repeat(12, 1fr);
+    > * {
+      grid-column: 2 / 12;
+    }
+  }
+}
+@media (max-width: 640px) {
+  main {
+    padding: 36px 0;
+    .info-container {
+      grid-template-rows: repeat(2, auto);
+      grid-template-columns: none;
+      grid-gap: 18px;
+      .avatar {
+        justify-self: center;
+      }
+      > img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+    .tabs-container {
+      margin-top: 28px;
+      padding-top: 18px;
+    }
+  }
+}
 </style>
