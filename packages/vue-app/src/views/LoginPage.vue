@@ -154,4 +154,15 @@ main {
     }
   }
 }
+@media (max-width: 1024px) {
+  main {
+    grid-template-columns: repeat(12, 1fr);
+    .cover {
+      display: none;
+    }
+    .form-container {
+      grid-column: 2 / 12;
+    }
+  }
+}
 </style>
