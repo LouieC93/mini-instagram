@@ -8,7 +8,7 @@ import type BaseAvatar from '@/components/BaseAvatar.vue';
           <p class="name">{{ user?.nickname }}</p>
           <router-link :to="{ name: 'profileEdit' }">Edit Profile</router-link>
         </div>
-        <p class="account">@{{ user?.username }}</p>
+        <p class="account">{{ user?.email }}</p>
         <p class="intro">
           {{ user?.intro }}
         </p>
