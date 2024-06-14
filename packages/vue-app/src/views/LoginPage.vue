@@ -65,8 +65,12 @@ async function login() {
     alert('Please complete the form')
     return
   } else {
-    await userStore.loginUser({ email: email.value, password: password.value })
-    router.replace({ name: 'home' })
+    try {
+      await userStore.loginUser({ email: email.value, password: password.value })
+      router.replace({ name: 'home' })
+    } catch (error) {
+      alert(`[${(error as Error).name}]: ${(error as Error).message}`)
+    }
   }
 }
 
