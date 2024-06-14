@@ -12,9 +12,9 @@
 
 ## Highlight
 
+- **Latest Vue system**: Built with TypeScript, Composition API, and Pinia.
 - **Grid Layout**: Instead of using flex layout, this project only utilizes grid layout.
 - **Smooth Scrolling**: The homepage features a smooth scrolling experience with `scroll-snap`.
-- **Latest Vue system**: Built with TypeScript, Composition API, and Pinia.
 
 ## Key Pages
 
